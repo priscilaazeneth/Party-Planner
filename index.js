@@ -7,10 +7,8 @@
  */
 
 // === Constants ===
-const BASE = "https://fsa-crud-2aa9294fe819.herokuapp.com/api";
-const COHORT = "/2605-ftb-ct-web-pt"; // Make sure to change this!
-const RESOURCE = "/events";
-const API = BASE + COHORT + RESOURCE;
+const API = "https://fsa-crud-2aa9294fe819.herokuapp.com/api/2605-ftb-ct-web-pt-Priscila/events";
+
 
 // === State ===
 let events = [];
@@ -45,7 +43,7 @@ async function addEvent(event) {
         const res = await fetch(API, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(artist)
+            body: JSON.stringify(event)
         })
         getEvent()  // refresh the list after adding
     } catch (error) {
@@ -61,11 +59,11 @@ async function addEvent(event) {
 async function removeEvent(id) {
      try {
         //delete from the api
-        await fetch(API + "/" + id, {
+        await fetch(API + id, {
             method:"DELETE",
         })
-        getEvents()
-      } catch (error) {  f// <-- this is required
+        getEvent()
+      } catch (error) {  // <-- this is required
     console.log(error)
 }
 } 
@@ -73,7 +71,7 @@ async function removeEvent(id) {
 // === Components ===
 
 /** Artist name that shows more details about the artist when clicked */
-function EventsListItem(event) {
+function EventListItem(event) {
   const $li = document.createElement("li");
   $li.innerHTML = `
     <a href="#selected">${event.name}</a>
@@ -87,7 +85,7 @@ function EventList() {
   const $ul = document.createElement("ul");
   $ul.classList.add("lineup");
 
-  const $events = events.map(EventsListItem);
+  const $events = events.map(EventListItem);
   $ul.replaceChildren(...$events);
 
   return $ul;
